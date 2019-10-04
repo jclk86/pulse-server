@@ -28,6 +28,7 @@ authRouter.post("/login", bodyParser, (req, res, next) => {
           return res.status(400).json({
             error: "Incorrect password"
           });
+        res.send("logged in!");
       });
     })
     .catch(next);
