@@ -9,3 +9,4 @@ module.exports = {
       : process.env.DATABASE_URL,
   ssl: !!process.env.SSL
 };
+// migrate stuff and then change code to this
