@@ -5,10 +5,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require("./config");
 const authRouter = require("./auth/auth-router");
-// afc5d75ddfff4597be88b995978ccdab; newsapi
-// https://newsapi.org/v2/everything?q=travel&sortBy=popularity&apiKey=afc5d75ddfff4597be88b995978ccdab
-// AIzaSyAq8UepD__oQcsgQN5hgj1vTC2bH8qMgwY; google api
-// https://api.nytimes.com/svc/topstories/v2/travel.json?api-key=oYrTlANh5Oy1wX48yGarRkizcYSJlLI8
+const userRouter = require("./user/user-router");
+
 const app = express();
 
 const morganOption = NODE_ENV === "production" ? "tiny" : "common";
@@ -18,9 +16,7 @@ app.use(helmet());
 app.use(cors());
 
 app.use("/api/auth", authRouter);
-app.get("/", (req, res) => {
-  res.send("Hello, boilerplate!");
-});
+app.use("/api/user", userRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
