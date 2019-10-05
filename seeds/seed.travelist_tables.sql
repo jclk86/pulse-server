@@ -14,7 +14,7 @@ INSERT INTO travelist_users (fullname, username, password, email)
     ('Sarah Jones', 'SJones23', '$2a$12$ECUJfdfKvwfUo49JdLcHgu7dPeLB3TGqJTxNRwTloYrEqFAoaWXie', 'SJones23@gmail.com'),
     ('Ben Askren', 'BAskren', '$2a$12$n0OOCm52j/KEwZ4cKd7oducp6Z8G4TvK3sYD98irOOLueDIYFCpg2', 'BAskren@gmail.com');    
 
-INSERT INTO travelist_articles (title, style, author_id, content )
+INSERT INTO travelist_articles (title, style, author_id, content)
   VALUES 
     ('Point of No Return', 'Diary', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Libero nunc consequat interdum varius sit. Amet mauris commodo quis imperdiet massa.'),
     ('Free Soloing for the First Time', 'Advice', 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Libero nunc consequat interdum varius sit. Amet mauris commodo quis imperdiet massa.'),

@@ -5,3 +5,4 @@ CREATE TABLE travelist_comments (
   content TEXT NOT NULL,
   date_created TIMESTAMP DEFAULT now() NOT NULL
 );
+
