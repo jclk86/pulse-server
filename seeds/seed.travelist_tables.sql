@@ -6,13 +6,13 @@ TRUNCATE
   travelist_users
   RESTART IDENTITY CASCADE;
 
-INSERT INTO travelist_users (fullname, username, password)
+INSERT INTO travelist_users (fullname, username, password, email)
   VALUES
-    ('Chuck Norris', 'CNorris', '$2a$12$bvk/RMGag/GcKw2Nu4xHreJtxHwBVjUDXVV/adljdAoriwRUADu8G'),
-    ('Matt Damon', 'Damonite', '$2a$12$g.BlEbps0qlA2MtnXxLaDu8hCLJJqsGXouJpI4xbAakyoKzXIgUZS'),
-    ('Lucy Liu', 'LucyL', '$2a$12$HJWGdn6.qcuC/w0/xZfrPeJzGwf3TJEh7brxJ9Ej3y9yWOjtPEgvy'),
-    ('Sarah Jones', 'SJones23', '$2a$12$ECUJfdfKvwfUo49JdLcHgu7dPeLB3TGqJTxNRwTloYrEqFAoaWXie'),
-    ('Ben Askren', 'BAskren', '$2a$12$n0OOCm52j/KEwZ4cKd7oducp6Z8G4TvK3sYD98irOOLueDIYFCpg2');    
+    ('Chuck Norris', 'CNorris', '$2a$12$bvk/RMGag/GcKw2Nu4xHreJtxHwBVjUDXVV/adljdAoriwRUADu8G', 'CNorris@gmail.com'),
+    ('Matt Damon', 'Damonite', '$2a$12$g.BlEbps0qlA2MtnXxLaDu8hCLJJqsGXouJpI4xbAakyoKzXIgUZS', 'Damonite@gmail.com'),
+    ('Lucy Liu', 'LucyL', '$2a$12$HJWGdn6.qcuC/w0/xZfrPeJzGwf3TJEh7brxJ9Ej3y9yWOjtPEgvy', 'LucyL@gmail.com'),
+    ('Sarah Jones', 'SJones23', '$2a$12$ECUJfdfKvwfUo49JdLcHgu7dPeLB3TGqJTxNRwTloYrEqFAoaWXie', 'SJones23@gmail.com'),
+    ('Ben Askren', 'BAskren', '$2a$12$n0OOCm52j/KEwZ4cKd7oducp6Z8G4TvK3sYD98irOOLueDIYFCpg2', 'BAskren@gmail.com');    
 
 INSERT INTO travelist_articles (title, style, author_id, content )
   VALUES 
