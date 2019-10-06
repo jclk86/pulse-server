@@ -19,6 +19,7 @@ authRouter.post("/login", bodyParser, (req, res, next) => {
         return res.status(400).json({
           error: "Incorrect username"
         });
+
       return AuthService.comparePasswords(
         loginUser.password,
         dbUser.password
@@ -27,7 +28,9 @@ authRouter.post("/login", bodyParser, (req, res, next) => {
           return res.status(400).json({
             error: "Incorrect password"
           });
-        res.send("logged in!");
+        const sub = dbUser.username;
+        const payload = { user_id: dbUser.id };
+        res.send({ authToken: AuthService.createJwt(sub, payload) });
       });
     })
     .catch(next);

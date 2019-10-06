@@ -1,19 +1,19 @@
 const xss = require("xss");
 
-
 const ArticlesService = {
   getAllArticles(db) {
     return db
-    .from('travelist_articles AS art')
-    .select(
-      'art.id',
-      'art_title',
-      'art_author_id',
-      'art_content',
-      'art_date_created',
-      'art_style',
-      db.raw(`count(DISTINCT comm) AS number_of_comments`), db.raw(
-        `json_strip_nulls(
+      .from("travelist_articles AS art")
+      .select(
+        "art.id",
+        "art_title",
+        "art_author_id",
+        "art_content",
+        "art_date_created",
+        "art_style",
+        db.raw(`count(DISTINCT comm) AS number_of_comments`),
+        db.raw(
+          `json_strip_nulls(
           json_build_object(
             'id', user.id,
             'username, user.username,
@@ -22,32 +22,24 @@ const ArticlesService = {
             'date_modified', user.date_modified
           )
         ) AS "author"`
-      ),
-    )
-    .leftJoin(
-      'travelist_comments AS comm',
-      'art.id',
-      'comm.article_id',
-    )
-    .leftJoin(
-      'travelist_users AS user',
-      'art.author_id',
-      'user.id',
-    )
-    .groupBy('art.id', 'user.id')
+        )
+      )
+      .leftJoin("travelist_comments AS comm", "art.id", "comm.article_id")
+      .leftJoin("travelist_users AS user", "art.author_id", "user.id")
+      .groupBy("art.id", "user.id");
   },
   getById(db, id) {
     return ArticlesService.getAllArticles(db)
-      .where('art.id', id)
-      .first()
+      .where("art.id", id)
+      .first();
   },
   getCommentForArticle(db, article_id) {
     return db
-      .from('travelist_comments AS comm')
+      .from("travelist_comments AS comm")
       .select(
-        'comm.id',
-        'comm.content',
-        'comm.date_created',
+        "comm.id",
+        "comm.content",
+        "comm.date_created",
         db.raw(
           `json_strip_nulls(
             row_to_json(
@@ -66,16 +58,12 @@ const ArticlesService = {
           ) AS "user"`
         )
       )
-      .where('comm.article_id', article_id)
-      .leftJoin(
-        'travelist_users AS user',
-        'comm.user_id',
-        'user.id',
-      )
-      .groupBy('comm.id', 'user.id')
+      .where("comm.article_id", article_id)
+      .leftJoin("travelist_users AS user", "comm.user_id", "user.id")
+      .groupBy("comm.id", "user.id");
   },
   serializeArticle(article) {
-    const {author} = article;
+    const { author } = article;
     return {
       id: article.id,
       style: article.style,
@@ -88,12 +76,12 @@ const ArticlesService = {
         fullname: author.fullname,
         date_created: new Date(author.date_created),
         date_modified: new Date(author.date_modified) || null
-      },
-    }
+      }
+    };
   },
 
   serializeArticleComment(comment) {
-    const {user} = comment
+    const { user } = comment;
     return {
       id: comment.id,
       article_id: comment.article_id,
@@ -105,9 +93,9 @@ const ArticlesService = {
         fullname: user.fullname,
         date_created: new Date(user.date_created),
         date_modified: new Date(user.date_modified) || null
-      },
-    }
+      }
+    };
   }
-}
+};
 
-module.exports = ArticleService;
+module.exports = ArticlesService;
