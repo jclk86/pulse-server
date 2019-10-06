@@ -6,11 +6,11 @@ const ArticlesService = {
       .from("travelist_articles AS art")
       .select(
         "art.id",
-        "art_title",
-        "art_author_id",
-        "art_content",
-        "art_date_created",
-        "art_style",
+        "art.title",
+        "art.author_id",
+        "art.content",
+        "art.date_created",
+        "art.style",
         db.raw(`count(DISTINCT comm) AS number_of_comments`),
         db.raw(
           `json_strip_nulls(
@@ -22,16 +22,31 @@ const ArticlesService = {
             'date_modified', user.date_modified
           )
         ) AS "author"`
-        )
+        ),
       )
       .leftJoin("travelist_comments AS comm", "art.id", "comm.article_id")
       .leftJoin("travelist_users AS user", "art.author_id", "user.id")
       .groupBy("art.id", "user.id");
   },
-  getById(db, id) {
+  getById(db, id) { // username? I think payload allows for id though
     return ArticlesService.getAllArticles(db)
       .where("art.id", id)
-      .first();
+      .first(); // might need to get stuff via user_id if you want a list of it
+  },
+  updateItem(db, id, newItemFields) {
+    return db
+    .from("travelist_articles")
+    .where({ id })
+    .update(newItemFields)
+  },
+  addItem(db, newItem) {
+    return db
+      .insert(newItem)
+      .into("travelist_articles")
+      .returning("*")
+      .then(rows => {
+        return rows[0]
+      })
   },
   getCommentForArticle(db, article_id) {
     return db
