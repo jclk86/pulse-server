@@ -34,7 +34,7 @@ userRouter.post("/", bodyParser, (req, res, next) => {
           user => {
             res
               .status(201)
-              .location(path.posix.join(req.originalUrl, `/login`)) // articles
+              .location(path.posix.join(req.originalUrl, `/login`))
               .json(UsersService.serializeUser(user));
           }
         );

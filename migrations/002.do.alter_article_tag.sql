@@ -9,4 +9,6 @@ CREATE TYPE article_tag AS ENUM (
 
 ALTER TABLE travelist_articles
   ADD COLUMN
-    style article_tag;
+    article_tag TEXT;
+    
+    -- was style article_tag
