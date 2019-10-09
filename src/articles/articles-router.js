@@ -16,20 +16,19 @@ articlesRouter
 
   .post(requireAuth, bodyParser, (req, res, next) => {
     // add require auth before bodyParser
-    const { id, username } = req.user;
+    const { id } = req.user;
     // title, style, author_id, content;
     const {
       // add image
       title,
       content,
-      style
+      article_tag
     } = req.body;
     const newArticle = {
       author_id: id,
-      username: username,
       title,
       content,
-      style
+      article_tag: article_tag
     };
 
     console.log(newArticle);
@@ -38,12 +37,14 @@ articlesRouter
         return res.status(400).json({
           error: `Missing '${key}' in request body`
         });
-    ArticlesService.addArticle(req.app.get("db"), newArticle).then(article => {
-      res
-        .status(201)
-        .location(req.originalUrl, `/${article.id}`)
-        .json(article);
-    });
+    ArticlesService.addArticle(req.app.get("db"), newArticle)
+      .then(article => {
+        res
+          .status(201)
+          .location(req.originalUrl, `/${article.id}`)
+          .json(article);
+      })
+      .catch(next);
   });
 
 articlesRouter
@@ -52,6 +53,53 @@ articlesRouter
   .all(checkArticleExists)
   .get((req, res, next) => {
     res.json(ArticlesService.serializeArticle(res.article));
+  })
+  .patch(requireAuth, bodyParser, (req, res, next) => {
+    // if user id = author_id, then can edit
+    // and need article id from req.params
+    // OR conditionally render the buttons to do this on items - user Id and/or author_id must be in state
+    //  const { id } = req.user;
+    //  const { author_id } = req.body;
+    //  id===author_id?
+
+    const { article_id } = req.params;
+    // add date_modified to article? It's on user for some reason
+    const { title, content, article_tag } = req.body;
+
+    const articleToUpdate = {
+      title,
+      content,
+      article_tag,
+      id: article_id,
+      author_id: req.user.id
+    };
+
+    const numOfValues = Object.values(articleToUpdate).filter(Boolean).length;
+
+    if (numOfValues === 0) {
+      return res.status(400).json({
+        error: {
+          message: `Request must contain either 'title', 'content', 'article_tag', 'author_id'`
+        }
+      });
+    }
+    ArticlesService.updateArticle(
+      req.app.get("db"),
+      article_id,
+      articleToUpdate
+    )
+      .then(numOfRowsAffected => {
+        res.status(204).end();
+      })
+      .catch(next);
+  })
+  .delete(requireAuth, (req, res, next) => {
+    const { article_id } = req.params;
+    ArticlesService.deleteArticle(req.app.get("db"), article_id)
+      .then(numRowsAffected => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
 articlesRouter
   .route("/:article_id/comments/")

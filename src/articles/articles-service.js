@@ -8,7 +8,7 @@ const ArticlesService = {
         "art.title",
         "art.author_id",
         "art.content",
-        "art.style",
+        "art.article_tag",
         "usr.username",
         "usr.fullname"
       )
@@ -24,7 +24,7 @@ const ArticlesService = {
         "art.title",
         "art.author_id",
         "art.content",
-        "art.style",
+        "art.article_tag",
         "usr.username"
       )
       .from("travelist_articles as art")
@@ -32,20 +32,27 @@ const ArticlesService = {
       .where("art.id", article_id)
       .first();
   },
-  updateItem(db, id, newItemFields) {
+
+  updateArticle(db, id, newArticleFields) {
     return db
       .from("travelist_articles")
       .where({ id })
-      .update(newItemFields);
+      .update(newArticleFields);
   },
-  addArticle(db, newItem) {
+  addArticle(db, newArticle) {
     return db
-      .insert(newItem)
+      .insert(newArticle)
       .into("travelist_articles")
       .returning("*")
       .then(rows => {
         return rows[0];
       });
+  },
+  deleteArticle(db, id) {
+    return db
+      .from("travelist_articles")
+      .where({ id })
+      .del();
   },
   getCommentsForArticle(db, article_id) {
     return db
@@ -65,7 +72,7 @@ const ArticlesService = {
   serializeArticle(article) {
     return {
       id: article.id,
-      style: article.style,
+      article_tag: article.article_tag,
       title: xss(article.title),
       content: xss(article.content),
       date_created: new Date(article.date_create),
