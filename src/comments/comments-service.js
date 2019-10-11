@@ -10,8 +10,7 @@ const CommentsService = {
         "comm.date_created",
         "comm.article_id",
         "comm.user_id",
-        "usr.username",
-        "usr.id"
+        "usr.username"
       )
       .leftJoin("travelist_users as usr", "comm.user_id", "usr.id")
       .where("comm.id", id)
@@ -44,6 +43,7 @@ const CommentsService = {
       article_id: comment.article_id,
       date_created: new Date(comment.date_created),
       user: {
+        id: comment.user_id,
         username: comment.username,
         date_modified: new Date() || null
       }
