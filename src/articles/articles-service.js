@@ -78,7 +78,7 @@ const ArticlesService = {
       date_created: new Date(article.date_create),
       number_of_comments: Number(article.number_of_comments) || 0,
       author: {
-        id: article.id, // this is the
+        id: article.author_id,
         username: article.username,
         fullname: article.fullname
         // date_created: new Date(article.date_created),

@@ -16,22 +16,16 @@ articlesRouter
 
   .post(requireAuth, bodyParser, (req, res, next) => {
     // add require auth before bodyParser
-    const { id } = req.user;
+
     // title, style, author_id, content;
-    const {
-      // add image
+    const { title, content, article_tag } = req.body;
+    const newArticle = {
+      author_id: req.user.id,
       title,
       content,
       article_tag
-    } = req.body;
-    const newArticle = {
-      author_id: id,
-      title,
-      content,
-      article_tag: article_tag
     };
 
-    console.log(newArticle);
     for (const [key, value] of Object.entries(newArticle))
       if (value == null)
         return res.status(400).json({
@@ -55,22 +49,15 @@ articlesRouter
     res.json(ArticlesService.serializeArticle(res.article));
   })
   .patch(requireAuth, bodyParser, (req, res, next) => {
-    // if user id = author_id, then can edit
-    // and need article id from req.params
-    // OR conditionally render the buttons to do this on items - user Id and/or author_id must be in state
-    //  const { id } = req.user;
-    //  const { author_id } = req.body;
-    //  id===author_id?
-
     const { article_id } = req.params;
     // add date_modified to article? It's on user for some reason
     const { title, content, article_tag } = req.body;
 
     const articleToUpdate = {
+      id: article_id,
       title,
       content,
       article_tag,
-      id: article_id,
       author_id: req.user.id
     };
 
