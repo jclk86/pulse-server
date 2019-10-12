@@ -4,7 +4,7 @@ const CommentsService = require("./comments-service");
 const commentsRouter = express.Router();
 const bodyParser = express.json();
 const { requireAuth } = require("../middleware/jwt-auth");
-
+// serialize comment and clear states in stocked 
 commentsRouter
 .route("/")
 .post(requireAuth, bodyParser, (req, res, next) => {
