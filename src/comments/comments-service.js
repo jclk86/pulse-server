@@ -24,10 +24,11 @@ const CommentsService = {
       .then(([comment]) => comment)
       .then(comment => CommentsService.getById(db, comment.id));
   },
-  updateComment(db, id, newCommentFields) {
+  updateComment(db, id, user_id, newCommentFields) {
     return db
       .from("travelist_comments")
       .where({ id })
+      .andWhere({ user_id })
       .update(newCommentFields);
   },
   deleteComment(db, id) {
@@ -39,13 +40,15 @@ const CommentsService = {
   serializeComment(comment) {
     return {
       id: comment.id,
-      content: xss(comment.content),
       article_id: comment.article_id,
+      content: xss(comment.content),
       date_created: new Date(comment.date_created),
       user: {
         id: comment.user_id,
         username: comment.username,
-        date_modified: new Date() || null
+        fullname: comment.fullname,
+        date_created: new Date(comment.date_created),
+        date_modified: new Date(comment.date_modified) || null
       }
     };
   }

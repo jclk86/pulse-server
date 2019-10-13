@@ -4,7 +4,7 @@ const CommentsService = require("./comments-service");
 const commentsRouter = express.Router();
 const bodyParser = express.json();
 const { requireAuth } = require("../middleware/jwt-auth");
-
+// serialize comment and clear states in stocked
 commentsRouter.route("/").post(requireAuth, bodyParser, (req, res, next) => {
   const { article_id, content } = req.body; // it'll be passed down from the articlePage Component as a prop
   const newComment = { article_id, content };
@@ -19,7 +19,7 @@ commentsRouter.route("/").post(requireAuth, bodyParser, (req, res, next) => {
     .then(comment => {
       res
         .status(201)
-        .location(path.posix.join(req.originalUrl, `/${comment.id}`))
+        .location(path.posix.join(req.originalUrl))
         .json(CommentsService.serializeComment(comment));
     })
     .catch(next);
@@ -28,7 +28,7 @@ commentsRouter.route("/").post(requireAuth, bodyParser, (req, res, next) => {
 commentsRouter
   .route("/:comment_id")
   .all(requireAuth)
-  .all(checkCommentExists)
+  .all(checkCommentExists) // check comment exists
   .get((req, res, next) => {
     res.json(CommentsService.serializeComment(res.comment));
   })
@@ -42,15 +42,18 @@ commentsRouter
       .catch(next);
   })
   .patch(bodyParser, (req, res, next) => {
-    const { comment_id } = req.params;
+    const { comment_id } = req.params; //
     const { content } = req.body;
-    const { user_id } = req.user;
+    const user_id = req.user.id; // user id & username
     const updatedComment = {
-      id: comment_id,
-      content: content,
-      date_created: new Date()
+      content: content
     };
-    CommentsService.updateComment(req.app.get("db"), comment_id, updatedComment)
+    CommentsService.updateComment(
+      req.app.get("db"),
+      comment_id,
+      user_id,
+      updatedComment
+    )
       .then(numOfRowsAffected => {
         res.status(204).end();
       })
