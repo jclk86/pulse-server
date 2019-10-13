@@ -10,6 +10,7 @@ const CommentsService = {
         "comm.date_created",
         "comm.article_id",
         "comm.user_id",
+        "usr.id",
         "usr.username"
       )
       .leftJoin("travelist_users as usr", "comm.user_id", "usr.id")
@@ -24,10 +25,11 @@ const CommentsService = {
       .then(([comment]) => comment)
       .then(comment => CommentsService.getById(db, comment.id));
   },
-  updateComment(db, id, newCommentFields) {
+  updateComment(db, id, user_id, newCommentFields) {
     return db
       .from("travelist_comments")
       .where({ id })
+      .andWhere({user_id})
       .update(newCommentFields);
   },
   deleteComment(db, id) {

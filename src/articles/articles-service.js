@@ -62,6 +62,7 @@ const ArticlesService = {
         "comm.article_id",
         "comm.content",
         "comm.date_created",
+        "comm.user_id",
         "usr.id",
         "usr.username"
       )
@@ -94,6 +95,7 @@ const ArticlesService = {
       content: xss(comment.content),
       date_created: new Date(comment.date_created),
       user: {
+        id: comment.user_id,
         username: comment.username,
         fullname: comment.fullname,
         date_created: new Date(comment.date_created),

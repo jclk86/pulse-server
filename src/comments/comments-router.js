@@ -45,15 +45,13 @@ commentsRouter
       .catch(next);
   })
   .patch(bodyParser, (req, res, next) => {
-    const { comment_id } = req.params;
+    const { comment_id } = req.params; // 
     const { content } = req.body;
-    const {id} = req.user // user id & username
+    const user_id = req.user.id // user id & username
     const updatedComment = {
-      user_id: id,
-      article_id: comment.article_id,
       content: content
     };
-    CommentsService.updateComment(req.app.get("db"), comment_id, updatedComment)
+    CommentsService.updateComment(req.app.get("db"), comment_id, user_id, updatedComment)
       .then(numOfRowsAffected => {
         res.status(204).end();
       })
@@ -64,7 +62,7 @@ commentsRouter
     try {
       const comment = await CommentsService.getById(
         req.app.get("db"),
-        req.params.id
+        req.params.comment_id
       );
       if (!comment)
         return res.status(404).json({
