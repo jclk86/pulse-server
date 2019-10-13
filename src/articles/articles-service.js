@@ -59,10 +59,10 @@ const ArticlesService = {
       .from("travelist_comments AS comm")
       .select(
         "comm.id",
+        "comm.user_id",
         "comm.article_id",
         "comm.content",
         "comm.date_created",
-        "usr.id",
         "usr.username"
       )
       .where("comm.article_id", article_id)
@@ -94,6 +94,7 @@ const ArticlesService = {
       content: xss(comment.content),
       date_created: new Date(comment.date_created),
       user: {
+        user_id: comment.user_id,
         username: comment.username,
         fullname: comment.fullname,
         date_created: new Date(comment.date_created),

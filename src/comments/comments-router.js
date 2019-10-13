@@ -28,10 +28,9 @@ commentsRouter.route("/").post(requireAuth, bodyParser, (req, res, next) => {
 commentsRouter
   .route("/:comment_id")
   .all(requireAuth)
-  .all(checkCommentExists) // check comment exists 
-  .get((req,res, next) => {
-    
-    // res.json(CommentsService.serializeComment(res.comment)); checkComme
+  .all(checkCommentExists)
+  .get((req, res, next) => {
+    res.json(CommentsService.serializeComment(res.comment));
   })
   .delete(bodyParser, (req, res, next) => {
     // ensure not any user can delete any comment
@@ -45,7 +44,7 @@ commentsRouter
   .patch(bodyParser, (req, res, next) => {
     const { comment_id } = req.params;
     const { content } = req.body;
-    const {user_id} = req.user
+    const { user_id } = req.user;
     const updatedComment = {
       id: comment_id,
       content: content,
@@ -58,21 +57,21 @@ commentsRouter
       .catch(next);
   });
 
-  async function checkCommentExists(req, res, next) {
-    try {
-      const comment = await CommentsService.getById(
-        req.app.get("db"),
-        req.params.id
-      );
-      if (!comment)
-        return res.status(404).json({
-          error: `Comment doesn't exist`
-        });
-      res.comment = comment;
-      next();
-    } catch (error) {
-      next(error);
-    }
+async function checkCommentExists(req, res, next) {
+  try {
+    const comment = await CommentsService.getById(
+      req.app.get("db"),
+      req.params.comment_id
+    );
+    if (!comment)
+      return res.status(404).json({
+        error: `Comment doesn't exist`
+      });
+    res.comment = comment;
+    next();
+  } catch (error) {
+    next(error);
   }
+}
 
 module.exports = commentsRouter;
