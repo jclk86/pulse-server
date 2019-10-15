@@ -5,9 +5,11 @@ const ArticlesService = {
     return db
       .select(
         "art.id",
+        "art.image_url",
         "art.title",
         "art.author_id",
         "art.content",
+        "art.date_created",
         "art.article_tag",
         "usr.username",
         "usr.fullname"
@@ -21,10 +23,12 @@ const ArticlesService = {
     return db
       .select(
         "art.id",
+        "art.image_url",
         "art.title",
         "art.author_id",
         "art.content",
         "art.article_tag",
+        "art.date_created",
         "usr.username"
       )
       .from("travelist_articles as art")
@@ -72,16 +76,16 @@ const ArticlesService = {
   serializeArticle(article) {
     return {
       id: article.id,
+      image_url: xss(article.image_url),
       article_tag: article.article_tag,
       title: xss(article.title),
       content: xss(article.content),
-      date_created: new Date(article.date_create),
+      date_created: new Date(article.date_created),
       number_of_comments: Number(article.number_of_comments) || 0,
       author: {
         id: article.author_id,
         username: article.username,
         fullname: article.fullname
-        // date_created: new Date(article.date_created),
         // date_modified: new Date(article.date_modified) || null
       }
     };

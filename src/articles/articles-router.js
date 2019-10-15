@@ -13,16 +13,13 @@ articlesRouter
       })
       .catch(next);
   })
-
   .post(requireAuth, bodyParser, (req, res, next) => {
-    // add require auth before bodyParser
-
-    // title, style, author_id, content;
-    const { title, content, article_tag } = req.body;
+    const { title, content, article_tag, image_url } = req.body;
     const newArticle = {
       author_id: req.user.id,
       title,
       content,
+      image_url,
       article_tag
     };
 
@@ -43,21 +40,20 @@ articlesRouter
 
 articlesRouter
   .route("/:article_id")
-  // .all(requireAuth)
   .all(checkArticleExists)
   .get((req, res, next) => {
     res.json(ArticlesService.serializeArticle(res.article));
   })
   .patch(requireAuth, bodyParser, (req, res, next) => {
     const { article_id } = req.params;
-    // add date_modified to article? It's on user for some reason
-    const { title, content, article_tag } = req.body;
+    const { title, content, article_tag, image_url } = req.body;
 
     const articleToUpdate = {
       id: article_id,
       title,
       content,
       article_tag,
+      image_url,
       author_id: req.user.id
     };
 
@@ -90,7 +86,6 @@ articlesRouter
   });
 articlesRouter
   .route("/:article_id/comments/")
-  // add requireAuth
   .all(checkArticleExists)
   .get((req, res, next) => {
     ArticlesService.getCommentsForArticle(

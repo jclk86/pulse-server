@@ -1,6 +1,9 @@
 const xss = require("xss");
 
 const CommentsService = {
+  getAllComments(db) {
+    return db.select("comm.article_id").from("travelist_comments as comm");
+  },
   getById(db, id) {
     return db
       .from("travelist_comments as comm")
