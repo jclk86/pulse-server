@@ -10,12 +10,25 @@ const UsersService = {
       .first()
       .then(user => !!user);
   },
+  getById(db, id) {
+    return db
+      .select("usr.id", "usr.username", "usr.password", "usr.profile")
+      .from("travelist_users as usr")
+      .where("usr.id", id)
+      .first();
+  },
   insertUser(db, newUser) {
     return db
       .insert(newUser)
       .into("travelist_users")
       .return("*")
       .then(([user]) => user);
+  },
+  updateUser(db, id, newUserFields) {
+    return db
+      .from("travelist_users")
+      .where({ id })
+      .update(newUserFields);
   },
   validatePassword(password) {
     if (password.length < 8) {
@@ -38,6 +51,7 @@ const UsersService = {
   serializeUser(user) {
     return {
       id: user.id,
+      profile: xss(user.profile),
       fullname: xss(user.fullname),
       username: xss(user.username),
       password: xss(user.password),
