@@ -10,9 +10,32 @@ const UsersService = {
       .first()
       .then(user => !!user);
   },
+  getByUserName(db, username) {
+    return db
+      .select(
+        "usr.id",
+        "usr.fullname",
+        "usr.username",
+        "usr.password",
+        "usr.profile",
+        "usr.image_url",
+        "usr.location"
+      )
+      .from("travelist_users as usr")
+      .where("usr.username", username)
+      .first();
+  },
   getById(db, id) {
     return db
-      .select("usr.id", "usr.username", "usr.password", "usr.profile")
+      .select(
+        "usr.id",
+        "usr.fullname",
+        "usr.username",
+        "usr.password",
+        "usr.profile",
+        "usr.image_url",
+        "usr.location"
+      )
       .from("travelist_users as usr")
       .where("usr.id", id)
       .first();
@@ -51,12 +74,15 @@ const UsersService = {
   serializeUser(user) {
     return {
       id: user.id,
+      location: xss(user.location),
+      image_url: xss(user.image_url),
       profile: xss(user.profile),
       fullname: xss(user.fullname),
       username: xss(user.username),
       password: xss(user.password),
       email: xss(user.email),
-      date_created: new Date(user.date_created)
+      date_created: new Date(user.date_created),
+      date_modified: new Date(user.date_modified) || null
     };
   }
 };

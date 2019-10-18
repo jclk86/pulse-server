@@ -19,7 +19,6 @@ const ArticlesService = {
   },
   //getNumberOfComments or in getComments
   getById(db, article_id) {
-    // username? I think payload allows for id though and might need to get stuff via user_id if you want a list of it
     return db
       .select(
         "art.id",

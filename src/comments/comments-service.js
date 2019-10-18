@@ -2,7 +2,17 @@ const xss = require("xss");
 
 const CommentsService = {
   getAllComments(db) {
-    return db.select("comm.article_id").from("travelist_comments as comm");
+    return db
+      .select(
+        "comm.id",
+        "comm.article_id",
+        "comm.content",
+        "comm.date_created",
+        "comm.user_id",
+        "usr.username"
+      )
+      .from("travelist_comments as comm")
+      .leftJoin("travelist_users as usr", "comm.user_id", "usr.id");
   },
   getById(db, id) {
     return db

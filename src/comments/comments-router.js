@@ -10,7 +10,9 @@ commentsRouter
   .get((req, res, next) => {
     CommentsService.getAllComments(req.app.get("db"))
       .then(comments => {
-        res.json(comments);
+        res.json(
+          comments.map(comment => CommentsService.serializeComment(comment))
+        );
       })
       .catch(next);
   })

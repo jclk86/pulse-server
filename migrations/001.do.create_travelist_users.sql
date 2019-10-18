@@ -6,6 +6,7 @@ CREATE TABLE travelist_users (
   username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
   email TEXT NOT NULL,
+  "location" TEXT, 
   date_created TIMESTAMP DEFAULT now() NOT NULL,
   date_modified TIMESTAMP
 );

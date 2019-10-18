@@ -6,9 +6,16 @@ const { requireAuth } = require("../middleware/jwt-auth");
 const path = require("path");
 
 userRouter.post("/", bodyParser, (req, res, next) => {
-  const { username, password, email, fullname } = req.body;
+  const { username, password, email, fullname, image_url, profile } = req.body;
 
-  for (const field of ["username", "password", "email", "fullname"])
+  for (const field of [
+    "username",
+    "profile",
+    "password",
+    "email",
+    "fullname",
+    "image_url"
+  ])
     if (!req.body[field])
       return res
         .status(400)
@@ -26,10 +33,11 @@ userRouter.post("/", bodyParser, (req, res, next) => {
       return UsersService.hashPassword(password).then(hashedPassword => {
         const newUser = {
           username,
+          profile,
+          image_url,
           password: hashedPassword,
           fullname,
-          email,
-          date_created: "now()"
+          email
         };
         return UsersService.insertUser(req.app.get("db"), newUser).then(
           user => {
@@ -45,16 +53,16 @@ userRouter.post("/", bodyParser, (req, res, next) => {
 });
 
 userRouter
-  .route("/profile")
+  .route("/account")
   .all(requireAuth)
   .all(checkUserExists)
   .get((req, res, next) => {
     res.json(UsersService.serializeUser(req.user));
   })
   .patch(bodyParser, (req, res, next) => {
-    const { username, password, profile } = req.body;
+    const { password, profile, image_url } = req.body;
 
-    for (const field of ["password", "profile"])
+    for (const field of ["password", "profile", "image_url"])
       if (!req.body[field])
         return res
           .status(400)
@@ -66,9 +74,10 @@ userRouter
 
     UsersService.hashPassword(password).then(hashedPassword => {
       const updatedUser = {
-        username,
+        image_url,
         password: hashedPassword,
-        profile
+        profile,
+        date_modified: "now()"
       };
       return UsersService.updateUser(
         req.app.get("db"),
@@ -77,11 +86,49 @@ userRouter
       ).then(user => {
         res
           .status(204)
-          .location(path.posix.join(req.originalUrl, `/login`))
+          .location(path.posix.join(req.originalUrl, `/account`))
           .json(UsersService.serializeUser(user));
       });
     });
   });
+
+userRouter
+  .route("/profile/:username")
+  .all(checkProfileExists)
+  .get((req, res, next) => {
+    res.json(UsersService.serializeUser(res.user));
+  });
+
+userRouter
+  .route("/location")
+  .all(requireAuth)
+  .all(checkUserExists)
+  .patch(bodyParser, (req, res, next) => {
+    const { location } = req.body;
+    const newLocation = {
+      location
+    };
+    UsersService.updateUser(req.app.get("db"), res.user.id, newLocation).then(
+      () => res.status(204)
+    );
+  });
+
+async function checkProfileExists(req, res, next) {
+  try {
+    const user = await UsersService.getByUserName(
+      req.app.get("db"),
+      req.params.username
+    );
+    if (!user)
+      return res.status(404).json({
+        error: `Profile doesn't exist`
+      });
+    res.user = user;
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
 async function checkUserExists(req, res, next) {
   try {

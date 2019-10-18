@@ -7,13 +7,13 @@ TRUNCATE
   travelist_users
   RESTART IDENTITY CASCADE;
 
-INSERT INTO travelist_users (fullname, username, password, email, "profile", image_url)
+INSERT INTO travelist_users (fullname, username, password, email, "profile", "location", image_url)
   VALUES
-    ('Chuck Norris', 'CNorris', '$2a$12$bvk/RMGag/GcKw2Nu4xHreJtxHwBVjUDXVV/adljdAoriwRUADu8G', 'CNorris@gmail.com', 'About me!', 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-    ('Matt Damon', 'Damonite', '$2a$12$g.BlEbps0qlA2MtnXxLaDu8hCLJJqsGXouJpI4xbAakyoKzXIgUZS', 'Damonite@gmail.com', 'About me!', 'https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-    ('Lucy Liu', 'LucyL', '$2a$12$HJWGdn6.qcuC/w0/xZfrPeJzGwf3TJEh7brxJ9Ej3y9yWOjtPEgvy', 'LucyL@gmail.com', 'About me!', 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-    ('Sarah Jones', 'SJones23', '$2a$12$ECUJfdfKvwfUo49JdLcHgu7dPeLB3TGqJTxNRwTloYrEqFAoaWXie', 'SJones23@gmail.com', 'About me!', 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-    ('Ben Askren', 'BAskren', '$2a$12$n0OOCm52j/KEwZ4cKd7oducp6Z8G4TvK3sYD98irOOLueDIYFCpg2', 'BAskren@gmail.com', 'About me!', 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');    
+    ('Chuck Norris', 'CNorris', '$2a$12$bvk/RMGag/GcKw2Nu4xHreJtxHwBVjUDXVV/adljdAoriwRUADu8G', 'CNorris@gmail.com', 'About me!', 'Texas, United States', 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+    ('Matt Damon', 'Damonite', '$2a$12$g.BlEbps0qlA2MtnXxLaDu8hCLJJqsGXouJpI4xbAakyoKzXIgUZS', 'Damonite@gmail.com', 'About me!', 'New Tork, United States', 'https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+    ('Lucy Liu', 'LucyL', '$2a$12$HJWGdn6.qcuC/w0/xZfrPeJzGwf3TJEh7brxJ9Ej3y9yWOjtPEgvy', 'LucyL@gmail.com', 'About me!', 'New Jersey, United States', 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+    ('Sarah Jones', 'SJones23', '$2a$12$ECUJfdfKvwfUo49JdLcHgu7dPeLB3TGqJTxNRwTloYrEqFAoaWXie', 'SJones23@gmail.com', 'About me!', 'New York, United States', 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+    ('Ben Askren', 'BAskren', '$2a$12$n0OOCm52j/KEwZ4cKd7oducp6Z8G4TvK3sYD98irOOLueDIYFCpg2', 'BAskren@gmail.com', 'About me!', 'Dallas, United States', 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');    
 
 INSERT INTO travelist_tags ("name")
   VALUES  
