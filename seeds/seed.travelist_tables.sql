@@ -1,6 +1,7 @@
 BEGIN;
 
-TRUNCATE 
+TRUNCATE
+  travelist_votes,
   travelist_comments,
   travelist_articles,
   travelist_tags,
@@ -39,6 +40,13 @@ INSERT INTO travelist_comments (content, article_id, user_id)
     ('Yo! We should meet up sometime!', 3, 4),
     ('Cool story!', 1, 3),
     ('Wish you the best of luck!', 4, 1);
+
+INSERT INTO travelist_votes (article_id, user_id, voted)
+  VALUES
+    (2, 1, true),
+    (2, 2, true),
+    (3, 2, true),
+    (3, 1, true);
 
 COMMIT;
 
