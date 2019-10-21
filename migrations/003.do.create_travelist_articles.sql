@@ -7,5 +7,5 @@ CREATE TABLE travelist_articles (
   title TEXT NOT NULL,
   content TEXT,
   date_created TIMESTAMP DEFAULT now() NOT NULL,
-  article_tag TEXT REFERENCES travelist_tags(name)
+  article_category TEXT REFERENCES travelist_categories(name)
 );

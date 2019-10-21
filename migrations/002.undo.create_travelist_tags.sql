@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS travelist_tags;

@@ -4,7 +4,7 @@ TRUNCATE
   travelist_votes,
   travelist_comments,
   travelist_articles,
-  travelist_tags,
+  travelist_categories,
   travelist_users
   RESTART IDENTITY CASCADE;
 
@@ -16,7 +16,7 @@ INSERT INTO travelist_users (fullname, username, password, email, "profile", "lo
     ('Sarah Jones', 'SJones23', '$2a$12$ECUJfdfKvwfUo49JdLcHgu7dPeLB3TGqJTxNRwTloYrEqFAoaWXie', 'SJones23@gmail.com', 'About me!', 'New York, United States', 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
     ('Ben Askren', 'BAskren', '$2a$12$n0OOCm52j/KEwZ4cKd7oducp6Z8G4TvK3sYD98irOOLueDIYFCpg2', 'BAskren@gmail.com', 'About me!', 'Dallas, United States', 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');    
 
-INSERT INTO travelist_tags ("name")
+INSERT INTO travelist_categories ("name")
   VALUES  
     ('Diary'),
     ('Advice'),
@@ -25,7 +25,7 @@ INSERT INTO travelist_tags ("name")
     ('News'),
     ('Interview');
 
-INSERT INTO travelist_articles (title, article_tag, author_id, image_url, content)
+INSERT INTO travelist_articles (title, article_category, author_id, image_url, content)
   VALUES 
     ('Point of No Return', 'Diary', 1, 'https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Libero nunc consequat interdum varius sit. Amet mauris commodo quis imperdiet massa.'),
     ('Free Soloing for the First Time', 'Advice', 2, 'https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Libero nunc consequat interdum varius sit. Amet mauris commodo quis imperdiet massa.'),

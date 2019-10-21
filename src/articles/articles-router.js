@@ -14,13 +14,13 @@ articlesRouter
       .catch(next);
   })
   .post(requireAuth, bodyParser, (req, res, next) => {
-    const { title, content, article_tag, image_url } = req.body;
+    const { title, content, article_category, image_url } = req.body;
     const newArticle = {
       author_id: req.user.id,
       title,
       content,
       image_url,
-      article_tag
+      article_category
     };
 
     for (const [key, value] of Object.entries(newArticle))
@@ -46,13 +46,13 @@ articlesRouter
   })
   .patch(requireAuth, bodyParser, (req, res, next) => {
     const { article_id } = req.params;
-    const { title, content, article_tag, image_url } = req.body;
+    const { title, content, article_category, image_url } = req.body;
 
     const articleToUpdate = {
       id: article_id,
       title,
       content,
-      article_tag,
+      article_category,
       image_url,
       author_id: req.user.id
     };
@@ -62,7 +62,7 @@ articlesRouter
     if (numOfValues === 0) {
       return res.status(400).json({
         error: {
-          message: `Request must contain either 'title', 'content', 'article_tag', 'author_id'`
+          message: `Request must contain either 'title', 'content', 'article_category', 'author_id'`
         }
       });
     }

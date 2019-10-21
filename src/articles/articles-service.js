@@ -10,7 +10,7 @@ const ArticlesService = {
         "art.author_id",
         "art.content",
         "art.date_created",
-        "art.article_tag",
+        "art.article_category",
         "usr.username",
         "usr.fullname"
       )
@@ -26,7 +26,7 @@ const ArticlesService = {
         "art.title",
         "art.author_id",
         "art.content",
-        "art.article_tag",
+        "art.article_category",
         "art.date_created",
         "usr.username"
       )
@@ -72,11 +72,18 @@ const ArticlesService = {
       .leftJoin("travelist_users AS usr", "comm.user_id", "usr.id")
       .groupBy("comm.id", "usr.id");
   },
+
+  countDistinctArticles() {
+    return db
+      .from("travelist_articles")
+      .select("id", COUNT("id"))
+      .groupBy("id");
+  },
   serializeArticle(article) {
     return {
       id: article.id,
       image_url: xss(article.image_url),
-      article_tag: article.article_tag,
+      article_category: article.article_category,
       title: xss(article.title),
       content: xss(article.content),
       date_created: new Date(article.date_created),
@@ -89,7 +96,6 @@ const ArticlesService = {
       }
     };
   },
-
   serializeArticleComment(comment) {
     return {
       id: comment.id,
