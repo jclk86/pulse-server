@@ -101,7 +101,6 @@ userRouter
 
 userRouter
   .route("/location")
-  .all(requireAuth)
   .all(checkUserExists)
   .patch(bodyParser, (req, res, next) => {
     const { location } = req.body;
