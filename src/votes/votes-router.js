@@ -28,26 +28,31 @@ votesRouter
           error: `Missing '${key}' in request body`
         });
       }
-    const voterExists = VotesService.getVoteByIds(
+    // If a row with a corresponding article_id and user_id exists in the database, delete. Else, post.
+    // first() in database knex query returns a promise, so if.. else statement must be handled within a then chain,
+    // or else the existence of row (outside a then chain) will always exist, and therefore result in a true value, which
+    // prevents the else statement from running.
+    VotesService.getVoteByIds(
       req.app.get("db"),
       newVote.article_id,
       newVote.user_id
-    );
-    if (voterExists) {
-      VotesService.deleteVote(
-        req.app.get("db"),
-        newVote.article_id,
-        newVote.user_id
-      ).then(numRowsAffected => {
-        res.status(204).end();
-      });
-    } else {
-      VotesService.addVote(req.app.get("db"), newVote)
-        .then(vote => {
-          res.status(201).json(vote);
-        })
-        .catch(next);
-    }
+    ).then(row => {
+      if (row) {
+        VotesService.deleteVote(
+          req.app.get("db"),
+          newVote.article_id,
+          newVote.user_id
+        ).then(numRowsAffected => {
+          res.status(204).end();
+        });
+      } else {
+        VotesService.addVote(req.app.get("db"), newVote)
+          .then(vote => {
+            res.status(201).json(vote);
+          })
+          .catch(next);
+      }
+    });
   })
   .delete(requireAuth, (req, res, next) => {
     const { article_id } = req.params;
