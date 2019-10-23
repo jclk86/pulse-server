@@ -1,19 +1,10 @@
 const VotesService = {
-  getTotalVotes(db, article_id) {
+  getTotalVotes(db) {
     return db
       .from("travelist_votes as votes")
-      .select(
-        "article_id",
-        "id",
-        "user_id",
-        "voted",
-        db.raw(`count(voted) as num_of_votes`)
-      )
-      .where("votes.article_id", article_id)
-      .andWhere("votes.voted", true)
-      .groupBy("article_id", "voted", "id", "user_id");
+      .select("article_id", "id", "user_id", "voted");
   },
-  getByIds(db, article_id, user_id) {
+  getVoteByIds(db, article_id, user_id) {
     return db
       .from("travelist_votes")
       .select("*")
@@ -26,10 +17,9 @@ const VotesService = {
       .insert(newVote)
       .into("travelist_votes")
       .returning("*")
-      .then(([votes]) => votes)
-      .then(votes =>
-        VotesService.getByIds(db, votes.article_id, votes.user_id)
-      );
+      .then(rows => {
+        return rows[0];
+      });
   },
   deleteVote(db, article_id, user_id) {
     return db
