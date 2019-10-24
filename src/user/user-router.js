@@ -8,14 +8,7 @@ const path = require("path");
 userRouter.post("/", bodyParser, (req, res, next) => {
   const { username, password, email, fullname, image_url, profile } = req.body;
 
-  for (const field of [
-    "username",
-    "profile",
-    "password",
-    "email",
-    "fullname",
-    "image_url"
-  ])
+  for (const field of ["username", "profile", "password", "email", "fullname"])
     if (!req.body[field])
       return res
         .status(400)

@@ -31,7 +31,7 @@ votesRouter
     // If a row with a corresponding article_id and user_id exists in the database, delete. Else, post.
     // first() in database knex query returns a promise, so if.. else statement must be handled within a then chain,
     // or else the existence of row (outside a then chain) will always exist, and therefore result in a true value, which
-    // prevents the else statement from running.
+    // prevents the else statement from running. In this scenario, if..else statement resided outside of then chain, only delete would run.
     VotesService.getVoteByIds(
       req.app.get("db"),
       newVote.article_id,
