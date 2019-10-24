@@ -8,8 +8,8 @@ const { requireAuth } = require("../middleware/jwt-auth");
 votesRouter
   .route("/:article_id")
   .get((req, res, next) => {
-    VotesService.getTotalVotes(req.app.get("db")).then(
-      votes => res.json(votes.map(vote => VotesService.serializeVotes(vote))) //filter it here?
+    VotesService.getTotalVotes(req.app.get("db")).then(votes =>
+      res.json(votes.map(vote => VotesService.serializeVotes(vote)))
     );
   })
   // 2 ways this can work: no vote is nonexistent or a deleted true vote.
@@ -18,7 +18,7 @@ votesRouter
     const { article_id } = req.params;
     const user_id = req.user.id;
     const newVote = {
-      article_id,
+      article_id: parseInt(article_id),
       user_id,
       voted: true
     };
@@ -28,22 +28,18 @@ votesRouter
           error: `Missing '${key}' in request body`
         });
       }
-    // If a row with a corresponding article_id and user_id exists in the database, delete. Else, post.
-    // first() in database knex query returns a promise, so if.. else statement must be handled within a then chain,
-    // or else the existence of row (outside a then chain) will always exist, and therefore result in a true value, which
-    // prevents the else statement from running. In this scenario, if..else statement resided outside of then chain, only delete would run.
+    // If a row with a corresponding article_id and user_id exists in the database, send 405 message to client.
+    //
     VotesService.getVoteByIds(
       req.app.get("db"),
       newVote.article_id,
       newVote.user_id
     ).then(row => {
       if (row) {
-        VotesService.deleteVote(
-          req.app.get("db"),
-          newVote.article_id,
-          newVote.user_id
-        ).then(numRowsAffected => {
-          res.status(204).end();
+        return res.status(405).json({
+          message: "You have already voted on this article",
+          type: "AlreadyVotedError",
+          article_id: newVote.article_id
         });
       } else {
         VotesService.addVote(req.app.get("db"), newVote)
@@ -57,31 +53,34 @@ votesRouter
   .delete(requireAuth, (req, res, next) => {
     const { article_id } = req.params;
     const user_id = req.user.id;
-    VotesService.deleteVote(req.app.get("db"), article_id, user_id)
-      .then(numRowsAffected => {
-        res.status(204).end();
-      })
-      .catch(next);
-  })
-
-  .patch(requireAuth, bodyParser, (req, res, next) => {
-    const { voted } = req.body;
-    const { article_id } = req.params;
-    const user_id = req.user.id;
-    const newVoteCount = {
-      voted: voted
-    };
-    VotesService.updateNumOfVotes(
-      req.app.get("db"),
-      article_id,
+    const voteToRemove = {
+      article_id: parseInt(article_id),
       user_id,
-      newVoteCount
-    )
-      .then(numOfRowsAffected => {
-        res.status(204).end();
-      })
-      .catch(next);
+      voted: true
+    };
+    VotesService.getVoteByIds(
+      req.app.get("db"),
+      voteToRemove.article_id,
+      voteToRemove.user_id
+    ).then(row => {
+      if (!row) {
+        return res.status(405).json({
+          message: "You do not have a vote for this article to delete",
+          type: "NoExistingVoteError",
+          article_id: voteToRemove.article_id
+        });
+      } else {
+        VotesService.deleteVote(
+          req.app.get("db"),
+          voteToRemove.article_id,
+          voteToRemove.user_id
+        )
+          .then(vote => {
+            res.status(204).end();
+          })
+          .catch(next);
+      }
+    });
   });
 
-// does voter exist for article
 module.exports = votesRouter;

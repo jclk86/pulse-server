@@ -41,7 +41,7 @@ commentsRouter
   .all(requireAuth)
   .all(checkCommentExists)
   .get((req, res, next) => {
-    res.json(CommentsService.serializeComment(res.comment));
+    res.json(CommentsService.serializeComment(res.comment).catch(next));
   })
   .delete(bodyParser, (req, res, next) => {
     const { comment_id } = req.params;
