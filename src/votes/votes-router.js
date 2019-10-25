@@ -28,8 +28,9 @@ votesRouter
           error: `Missing '${key}' in request body`
         });
       }
-    // If a row with a corresponding article_id and user_id exists in the database, send 405 message to client.
-    //
+
+    // If a row with a corresponding article_id and user_id exists in the database, send 405 message to client. This prevents
+    // users from upvoting more than once.
     VotesService.getVoteByIds(
       req.app.get("db"),
       newVote.article_id,
@@ -37,7 +38,7 @@ votesRouter
     ).then(row => {
       if (row) {
         return res.status(405).json({
-          message: "You have already voted on this article",
+          message: "Already voted",
           type: "AlreadyVotedError",
           article_id: newVote.article_id
         });
@@ -58,6 +59,7 @@ votesRouter
       user_id,
       voted: true
     };
+
     VotesService.getVoteByIds(
       req.app.get("db"),
       voteToRemove.article_id,
@@ -65,7 +67,7 @@ votesRouter
     ).then(row => {
       if (!row) {
         return res.status(405).json({
-          message: "You do not have a vote for this article to delete",
+          message: "No vote to delete",
           type: "NoExistingVoteError",
           article_id: voteToRemove.article_id
         });
@@ -75,7 +77,7 @@ votesRouter
           voteToRemove.article_id,
           voteToRemove.user_id
         )
-          .then(vote => {
+          .then(numOfRowsAffected => {
             res.status(204).end();
           })
           .catch(next);
