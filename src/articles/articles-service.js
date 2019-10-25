@@ -12,12 +12,16 @@ const ArticlesService = {
         "art.date_created",
         "art.article_category",
         "usr.username",
-        "usr.fullname"
+        "usr.fullname",
+        db.raw(`COUNT(votes.voted) as num_of_votes`)
       )
       .from("travelist_articles as art")
-      .leftJoin("travelist_users as usr", "art.author_id", "usr.id");
+      .innerJoin("travelist_users as usr", "art.author_id", "usr.id")
+      .innerJoin("travelist_votes as votes", "art.id", "votes.article_id")
+      .groupBy("art.id")
+      .groupBy("usr.username")
+      .groupBy("usr.fullname");
   },
-  //getNumberOfComments or in getComments
   getById(db, article_id) {
     return db
       .select(
@@ -93,6 +97,10 @@ const ArticlesService = {
         username: article.username,
         fullname: article.fullname
         // date_modified: new Date(article.date_modified) || null
+      },
+      votes: {
+        article_id: article.id,
+        num_of_votes: parseInt(article.num_of_votes)
       }
     };
   },
