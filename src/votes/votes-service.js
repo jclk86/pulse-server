@@ -2,7 +2,7 @@ const VotesService = {
   getTotalVotes(db) {
     return db
       .from("travelist_votes as votes")
-      .select("article_id", "id", "user_id", "voted");
+      .select("article_id", "vote_id", "user_id", "voted");
   },
   getVoteByIds(db, article_id, user_id) {
     return db
@@ -38,7 +38,7 @@ const VotesService = {
 
   serializeVotes(votes) {
     return {
-      id: votes.id,
+      id: votes.vote_id,
       article_id: votes.article_id,
       voted: votes.voted,
       num_of_votes: votes.num_of_votes,

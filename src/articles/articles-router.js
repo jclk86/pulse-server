@@ -9,7 +9,7 @@ articlesRouter
   .get((req, res, next) => {
     ArticlesService.getAllArticles(req.app.get("db"))
       .then(articles => {
-        res.json(articles.map(ArticlesService.serializeArticle));
+        return res.json(articles.map(ArticlesService.serializeArticle));
       })
       .catch(next);
   })
