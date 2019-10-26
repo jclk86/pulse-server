@@ -18,8 +18,7 @@ const UsersService = {
         "usr.username",
         "usr.password",
         "usr.profile",
-        "usr.image_url",
-        "usr.location"
+        "usr.image_url"
       )
       .from("travelist_users as usr")
       .where("usr.username", username)
@@ -33,8 +32,7 @@ const UsersService = {
         "usr.username",
         "usr.password",
         "usr.profile",
-        "usr.image_url",
-        "usr.location"
+        "usr.image_url"
       )
       .from("travelist_users as usr")
       .where("usr.id", id)
@@ -74,7 +72,6 @@ const UsersService = {
   serializeUser(user) {
     return {
       id: user.id,
-      location: xss(user.location),
       image_url: xss(user.image_url),
       profile: xss(user.profile),
       fullname: xss(user.fullname),

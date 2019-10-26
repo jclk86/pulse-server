@@ -92,18 +92,6 @@ userRouter
     res.json(UsersService.serializeUser(res.user));
   });
 
-userRouter
-  .route("/location")
-  .patch(requireAuth, checkUserExists, bodyParser, (req, res, next) => {
-    const { location } = req.body;
-    const newLocation = {
-      location
-    };
-    UsersService.updateUser(req.app.get("db"), req.user.id, newLocation).then(
-      () => res.status(204)
-    );
-  });
-
 async function checkProfileExists(req, res, next) {
   try {
     const user = await UsersService.getByUserName(
