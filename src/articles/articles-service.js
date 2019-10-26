@@ -19,7 +19,7 @@ const ArticlesService = {
       )
       .from("travelist_articles as art")
       .leftJoin("travelist_votes as votes", "votes.article_id", "art.id")
-      .rightJoin("travelist_users as usr", "usr.id", "art.author_id")
+      .leftJoin("travelist_users as usr", "usr.id", "art.author_id")
       .groupBy("art.id", "usr.username", "usr.fullname", "usr.id");
   },
   getById(db, article_id) {
