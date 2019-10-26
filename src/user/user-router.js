@@ -94,14 +94,12 @@ userRouter
 
 userRouter
   .route("/location")
-  .all(requireAuth)
-  .all(checkUserExists)
-  .patch(bodyParser, (req, res, next) => {
+  .patch(requireAuth, checkUserExists, bodyParser, (req, res, next) => {
     const { location } = req.body;
     const newLocation = {
       location
     };
-    UsersService.updateUser(req.app.get("db"), res.user.id, newLocation).then(
+    UsersService.updateUser(req.app.get("db"), req.user.id, newLocation).then(
       () => res.status(204)
     );
   });
