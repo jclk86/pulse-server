@@ -18,8 +18,8 @@ userRouter.post("/", bodyParser, (req, res, next) => {
 
   if (passwordError) return res.status(400).json({ error: passwordError });
 
-  UsersService.hasUserWithUserName(req.app.get("db"), username).then(
-    hasUserWithUserName => {
+  UsersService.hasUserWithUserName(req.app.get("db"), username)
+    .then(hasUserWithUserName => {
       if (hasUserWithUserName) {
         return res.status(400).json({ error: `Username already taken` });
       }
@@ -36,13 +36,18 @@ userRouter.post("/", bodyParser, (req, res, next) => {
           user => {
             res
               .status(201)
-              .location(path.posix.join(req.originalUrl, `/login`))
+              .location(
+                path.posix.join(
+                  req.originalUrl,
+                  `/profile/${newUser.username.replace(/ /g, "")}`
+                )
+              )
               .json(UsersService.serializeUser(user));
           }
         );
       });
-    }
-  );
+    })
+    .catch(next);
 });
 
 userRouter
@@ -69,19 +74,20 @@ userRouter
       const updatedUser = {
         image_url,
         password: hashedPassword,
-        profile,
-        date_modified: "now()"
+        profile
       };
       return UsersService.updateUser(
         req.app.get("db"),
         res.user.id,
         updatedUser
-      ).then(user => {
-        res
-          .status(204)
-          .location(path.posix.join(req.originalUrl, `/account`))
-          .json(UsersService.serializeUser(user));
-      });
+      )
+        .then(user => {
+          res
+            .status(201)
+            .location(path.posix.join(req.originalUrl))
+            .json(UsersService.serializeUser(user));
+        })
+        .catch(next);
     });
   });
 

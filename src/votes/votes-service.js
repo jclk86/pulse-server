@@ -41,7 +41,6 @@ const VotesService = {
       id: votes.vote_id,
       article_id: votes.article_id,
       voted: votes.voted,
-      num_of_votes: votes.num_of_votes,
       user_id: votes.user_id
     };
   }

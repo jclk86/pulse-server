@@ -10,9 +10,17 @@ commentsRouter
   .get((req, res, next) => {
     CommentsService.getAllComments(req.app.get("db"))
       .then(comments => {
-        res.json(
-          comments.map(comment => CommentsService.serializeComment(comment))
-        );
+        if (!comments) {
+          res.status(404).json({
+            message: "No comments found in database",
+            type: "NoCommentsFoundinDB",
+            comments: comments
+          });
+        } else {
+          res.json(
+            comments.map(comment => CommentsService.serializeComment(comment))
+          );
+        }
       })
       .catch(next);
   })

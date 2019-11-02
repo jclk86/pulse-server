@@ -1,7 +1,6 @@
 const xss = require("xss");
 
 const ArticlesService = {
-  //
   getAllArticles(db) {
     return db
       .select(
@@ -77,12 +76,6 @@ const ArticlesService = {
       .groupBy("comm.id", "usr.id");
   },
 
-  // countDistinctArticles() {
-  //   return db
-  //     .from("travelist_articles")
-  //     .select("id", COUNT("id"))
-  //     .groupBy("id");
-  // },
   serializeArticle(article) {
     return {
       id: article.id,
@@ -91,7 +84,7 @@ const ArticlesService = {
       title: xss(article.title),
       content: xss(article.content),
       date_created: new Date(article.date_created),
-      num_of_votes: article.num_of_votes,
+      num_of_votes: parseInt(article.num_of_votes),
       author: {
         id: article.author_id,
         username: article.username,

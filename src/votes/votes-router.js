@@ -12,8 +12,7 @@ votesRouter
       res.json(votes.map(vote => VotesService.serializeVotes(vote)))
     );
   })
-  // 2 ways this can work: no vote is nonexistent or a deleted true vote.
-  // or no vote is false, which requires a req.body.voted value
+
   .post(requireAuth, bodyParser, (req, res, next) => {
     const { article_id } = req.params;
     const user_id = req.user.id;

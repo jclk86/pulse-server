@@ -42,8 +42,11 @@ const UsersService = {
     return db
       .insert(newUser)
       .into("travelist_users")
-      .return("*")
-      .then(([user]) => user);
+      .returning("*")
+      .then(([user]) => {
+        console.log("insert user into db" + user);
+        return user;
+      });
   },
   updateUser(db, id, newUserFields) {
     return db
@@ -62,7 +65,7 @@ const UsersService = {
       return "Password must not start or end with empty space";
     }
     if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(password)) {
-      return "Password must contain one upper case, lower case, number and special character";
+      return "Password must contain one uppercase, lowercase, number and special character";
     }
     return null;
   },
@@ -76,10 +79,7 @@ const UsersService = {
       profile: xss(user.profile),
       fullname: xss(user.fullname),
       username: xss(user.username),
-      password: xss(user.password),
-      email: xss(user.email),
-      date_created: new Date(user.date_created),
-      date_modified: new Date(user.date_modified) || null
+      email: xss(user.email)
     };
   }
 };

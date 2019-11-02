@@ -26,6 +26,10 @@ app.use("/api/comments", commentsRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/votes", votesRouter);
 
+app.get("/", (req, res) => {
+  res.status(404).send({ error: { message: "Page Not Found" } });
+});
+
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if (NODE_ENV === "production") {

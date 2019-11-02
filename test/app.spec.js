@@ -1,9 +1,9 @@
-const app = require('../src/app')
+const app = require("../src/app");
 
-describe('App', () => {
-  it('GET / responds with 200 containing "Hello, world!"', () => {
+describe("App", () => {
+  it("GET / responds with 404 error", () => {
     return supertest(app)
-      .get('/')
-      .expect(200, 'Hello, boilerplate!')
-  })
-})
+      .get("/")
+      .expect(404, { error: { message: "Page Not Found" } });
+  });
+});

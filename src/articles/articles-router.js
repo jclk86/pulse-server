@@ -58,7 +58,6 @@ articlesRouter
     };
 
     const numOfValues = Object.values(articleToUpdate).filter(Boolean).length;
-
     if (numOfValues === 0) {
       return res.status(400).json({
         error: {
@@ -72,7 +71,7 @@ articlesRouter
       articleToUpdate
     )
       .then(numOfRowsAffected => {
-        res.status(204).end();
+        res.status(201).end();
       })
       .catch(next);
   })
