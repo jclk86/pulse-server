@@ -9,7 +9,8 @@ const CommentsService = {
         "comm.content",
         "comm.date_created",
         "comm.user_id",
-        "usr.username"
+        "usr.username",
+        "usr.image_url"
       )
       .from("travelist_comments as comm")
       .leftJoin("travelist_users as usr", "comm.user_id", "usr.id");
@@ -58,6 +59,7 @@ const CommentsService = {
       date_created: new Date(comment.date_created),
       user: {
         id: comment.user_id,
+        image_url: comment.image_url,
         username: comment.username,
         fullname: comment.fullname,
         date_created: new Date(comment.date_created),
