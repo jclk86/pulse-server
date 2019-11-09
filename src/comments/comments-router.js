@@ -4,7 +4,7 @@ const CommentsService = require("./comments-service");
 const commentsRouter = express.Router();
 const bodyParser = express.json();
 const { requireAuth } = require("../middleware/jwt-auth");
-// serialize comment and clear states in stocked
+
 commentsRouter
   .route("/")
   .get((req, res, next) => {
@@ -25,7 +25,7 @@ commentsRouter
       .catch(next);
   })
   .post(requireAuth, bodyParser, (req, res, next) => {
-    const { article_id, content } = req.body; // it'll be passed down from the articlePage Component as a prop
+    const { article_id, content } = req.body;
     const newComment = { article_id, content };
 
     for (const [key, value] of Object.entries(newComment))
@@ -60,7 +60,7 @@ commentsRouter
       .catch(next);
   })
   .patch(bodyParser, (req, res, next) => {
-    const { comment_id } = req.params; //
+    const { comment_id } = req.params;
     const { content } = req.body;
     const user_id = req.user.id;
     const updatedComment = {

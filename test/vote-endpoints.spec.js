@@ -43,11 +43,6 @@ describe(`Votes Endpoints`, () => {
     });
 
     it(`responds 200 and returns votes for article`, () => {
-      // const expectedVotes = helpers.makeExpectedVotesForArticle(
-      //   testVotes,
-      //   testArticles[0].id
-      // );
-
       return supertest(app)
         .get(`/api/votes/${testArticles[0].id}`)
         .expect(200);

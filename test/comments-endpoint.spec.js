@@ -46,13 +46,6 @@ describe(`Comments Endpoint`, () => {
           testVotes
         )
       );
-      // const expectedComments = testArticles.map(article => {
-      //   return helpers.makeExpectedArticleComments(
-      //     testUsers,
-      //     article.id,
-      //     testComments
-      //   );
-      // });
 
       it(`responds 200 and returns all comments`, () => {
         return supertest(app)
