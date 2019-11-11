@@ -1,26 +1,146 @@
-# Express Boilerplate!
+# Travelist
 
-This is a boilerplate project used for starting new projects!
+A source for the travel community to create blog articles and to connect with one another.
 
-## Set up
+Live link: https://jclk86-travelist.now.sh
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+## Login
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+You may choose to login with the account below or simply create one via registration.
 
-## Scripts
+Username: CNorris
+Password: Password123!
 
-Start the application `npm start`
+### npm install
 
-Start nodemon for the application `npm run dev`
+There a number of dependencies that need to be installed.
 
-Run the tests `npm test`
+### npm start
 
-## Deploying
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in the browser.
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+The page will reload if you make edits.
+You will also see any lint errors in the console.
+
+### npm test
+
+Tests all the endpoints.
+
+## Motivation
+
+This app was created for travelers who want to share their tips and guides with fellow travel lovers.
+
+## API
+
+I created my own RESTful API to contain all the articles, comments, users, and votes data.
+
+## RESTful Endpoints
+
+### GET
+
+GET logged in user's account... /api/user/account
+
+GET other user's profile... /api/user/profile/:username
+
+GET all articles... /api/articles
+
+Get all comments for article... /api/:article_id/comments
+
+Get all comments... /api/comments
+
+Get specific comment /api/comments/:comment_id
+
+Get all categories... /api/categories
+
+Get all votes for article... /api/votes/article_id
+
+### POST
+
+POST newly-created user... /api/user
+
+POST user's login... /api/auth/login
+
+POST refreshed token... /api/auth/refresh
+
+POST new article... /api/articles
+
+POST add vote to article... /api/votes/:article_id
+
+POST new comment... /api/comments
+
+### DELETE
+
+DELETE specific comment... /api/comments/:comment_id
+
+DELETE specific article... /api/articles/:article_id
+
+DELETE user's vote... /api/votes/:article_id
+
+### PATCH
+
+PATCH specific comment... /api/comments/:comment_id
+
+PATCH specific article... /api/articles/:article_id
+
+PATCH user's account... /api/account
+
+## Challenges
+
+For this application it was important to create a database of tables that complemented one another and offers easy interaction between data for front-end purposes. Some examples of this challenge were as follows: ensuring voting could only be done once, per user and per article, or ensuring that each comment could be attributed to a user and an article. These challenges required formatting data objects for the front-end so that they encompass columns of multiple different data tables. Not only did serializing data tables and using specific queries to join data tables allow for more accessible data, but also it allowed for functions to be built on the front-end to be able to render various features of those data -- for instance, getting vote counts for specific articles, attributing votes to specific articles, comment counts per user or per article, and more. Ultimately, it allowed for more creativity and flexibility with the data.
+
+## Screenshots
+
+<p align="left">
+  <p>Login:</p>
+  <img src="screenshots/LoginForm.png">
+</p>
+
+<p align="left">
+  <p>Registration:</p>
+  <img src="screenshots/RegistrationForm.png">
+</p>
+
+<p align="left">
+  <p>Main Article Page:</p>
+  <img src="screenshots/ArticleList.png">
+</p>
+
+<p align="left">
+  <p>Add Article Form:</p>
+  <img src="screenshots/AddArticleForm.png">
+</p>
+
+<p align="left">
+  <p>Edit Article Form:</p>
+  <img src="screenshots/EditArticleForm.png">
+</p>
+
+<p align="left">
+  <p>Article:</p>
+  <img src="screenshots/Article.png">
+</p>
+
+<p align="left">
+  <p>Comments:</p>
+  <img src="screenshots/Comments.png">
+</p>
+
+<p align="left">
+  <p>User Account:</p>
+  <img src="screenshots/UserAccount.png">
+</p>
+
+<p align="left">
+  <p>Profiles:</p>
+  <img src="screenshots/Profiles.png">
+</p>
+
+<p align="left">
+  <p>The app's theme can be adjusted from dark to light</p>
+  <img src="screenshots/Light.png">
+</p>
+
+## Built With
+
+React, Node.js, Express, JavaScript, and PostgreSQL. And Jest, Enzyme, Mocha, and Chai were all utilized in testing.

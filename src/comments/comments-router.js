@@ -98,6 +98,7 @@ async function checkCommentExists(req, res, next) {
       return res.status(404).json({
         error: `Comment doesn't exist`
       });
+    // below object is passed on to all the methods above.
     res.comment = comment;
     next();
   } catch (error) {

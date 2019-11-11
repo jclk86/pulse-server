@@ -23,6 +23,7 @@ userRouter.post("/", bodyParser, (req, res, next) => {
       if (hasUserWithUserName) {
         return res.status(400).json({ error: `Username already taken` });
       }
+      // encypts password
       return UsersService.hashPassword(password).then(hashedPassword => {
         const newUser = {
           username,
@@ -98,6 +99,7 @@ userRouter
     res.json(UsersService.serializeUser(res.user));
   });
 
+// below async functions pass on objects to be used in routes above.
 async function checkProfileExists(req, res, next) {
   try {
     const user = await UsersService.getByUserName(

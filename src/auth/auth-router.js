@@ -36,7 +36,9 @@ authRouter.post("/login", bodyParser, (req, res, next) => {
     })
     .catch(next);
 });
-
+// payload user id is used in the front end for not only login, but also
+// to allow for certain options to be available to users working under their
+// account.
 authRouter.post("/refresh", requireAuth, (req, res, next) => {
   const sub = req.user.username;
   const payload = { user_id: req.user.id };
