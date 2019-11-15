@@ -15,7 +15,7 @@ const app = express();
 
 const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 const corsOptions = {
-  origin: "*"
+  origin: "https://jclk86-travelist.now.sh"
 };
 
 app.use(morgan(morganOption));
