@@ -89,58 +89,6 @@ PATCH user's account... /api/account
 
 For this application it was important to create a database of tables that complemented one another and offers easy interaction between data for front-end purposes. Some examples of this challenge were as follows: ensuring voting could only be done once, per user and per article, or ensuring that each comment could be attributed to a user and an article. These challenges required formatting data objects for the front-end so that they encompass columns of multiple different data tables. Not only did serializing data tables and using specific queries to join data tables allow for more accessible data, but also it allowed for functions to be built on the front-end to be able to render various features of those data -- for instance, getting vote counts for specific articles, attributing votes to specific articles, comment counts per user or per article, and more. Ultimately, it allowed for more creativity and flexibility with the data.
 
-## Screenshots
-
-<p align="left">
-  <p>Login:</p>
-  <img src="screenshots/LoginForm.png">
-</p>
-
-<p align="left">
-  <p>Registration:</p>
-  <img src="screenshots/RegistrationForm.png">
-</p>
-
-<p align="left">
-  <p>Main Article Page:</p>
-  <img src="screenshots/ArticleList.png">
-</p>
-
-<p align="left">
-  <p>Add Article Form:</p>
-  <img src="screenshots/AddArticleForm.png">
-</p>
-
-<p align="left">
-  <p>Edit Article Form:</p>
-  <img src="screenshots/EditArticleForm.png">
-</p>
-
-<p align="left">
-  <p>Article:</p>
-  <img src="screenshots/Article.png">
-</p>
-
-<p align="left">
-  <p>Comments:</p>
-  <img src="screenshots/Comments.png">
-</p>
-
-<p align="left">
-  <p>User Account:</p>
-  <img src="screenshots/UserAccount.png">
-</p>
-
-<p align="left">
-  <p>Profiles:</p>
-  <img src="screenshots/Profiles.png">
-</p>
-
-<p align="left">
-  <p>The app's theme can be adjusted from dark to light</p>
-  <img src="screenshots/Light.png">
-</p>
-
 ## Built With
 
 React, Node.js, Express, JavaScript, and PostgreSQL. And Jest, Enzyme, Mocha, and Chai were all utilized in testing.
