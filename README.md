@@ -2,7 +2,7 @@
 
 A source for the travel community to create blog articles and to connect with one another.
 
-Live link: https://jclk86-travelist.now.sh
+Live link: https://travelist-client-clfox97sa.vercel.app/
 
 ## Login
 
