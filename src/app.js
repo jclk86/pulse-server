@@ -20,7 +20,7 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: "https://afternoon-wildwood-59829.herokuapp.com",
+    origin: "https://arcane-refuge-94724.herokuapp.com",
   })
 );
 
