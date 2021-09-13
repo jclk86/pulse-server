@@ -17,7 +17,12 @@ const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "https://afternoon-wildwood-59829.herokuapp.com",
+  })
+);
 
 app.use("/public", express.static("public"));
 
