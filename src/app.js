@@ -17,9 +17,7 @@ const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(
-  cors({ origin: "https://travelist-client.vercel.app", credentials: true })
-);
+app.use(cors());
 
 app.use("/public", express.static("public"));
 
@@ -37,7 +35,7 @@ app.get("/", (req, res) => {
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if (NODE_ENV === "production") {
-    response = { error: { message: "server error" } };
+    response = { error: { message: "server error 500" } };
   } else {
     console.error(error);
     response = { message: error.message, error };
