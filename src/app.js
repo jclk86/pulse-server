@@ -18,7 +18,7 @@ const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(
-  cors({ origin: "https://travelist-client.vercel.app/", credentials: true })
+  cors({ origin: "https://travelist-client.vercel.app", credentials: true })
 );
 
 app.use("/public", express.static("public"));
