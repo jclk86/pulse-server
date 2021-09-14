@@ -33,7 +33,7 @@ This app was created for travelers who want to share their tips and guides with 
 
 ## API
 
-I created my own RESTful API to contain all the articles, comments, users, and votes data.
+I created my own RESTful APIs to contain all the articles, comments, users, and votes data.
 
 ## RESTful Endpoints
 
