@@ -33,6 +33,8 @@ app.get("/", (req, res) => {
   res.status(404).send({ error: { message: "Page Not Found" } });
 });
 
+console.log("Database_URL", process.env.DATABASE_URL);
+
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if (NODE_ENV === "production") {
