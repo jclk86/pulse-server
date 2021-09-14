@@ -20,7 +20,7 @@ app.use(helmet());
 
 app.use(cors());
 
-app.use("/public", express.static("public"));
+app.use(express.static("/public"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
